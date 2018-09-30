@@ -75,4 +75,5 @@ def _download_chunks(api, headers, params, brange):
 
 
 def _get_feed_length(content_range):
+    # extract feed length (in byte) from response header Content-Range
     return int(content_range.split('/')[-1])

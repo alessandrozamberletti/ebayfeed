@@ -7,7 +7,7 @@ from ebayfeed.utils import get_api_uri
 
 class Api:
     """
-    eBay Feed API wrapper.
+    eBay FeedAPI wrapper.
     """
 
     def __init__(self, env=ENVIRONMENT_PRODUCTION):
