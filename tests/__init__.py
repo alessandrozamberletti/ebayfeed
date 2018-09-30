@@ -1,8 +1,23 @@
 # -*- coding: utf-8 -*-
 import yaml
 import os
+from mock import Mock
+from tests.test_constants import *
+
 from ebayfeed.constants import ENVIRONMENT_SANDBOX
 from ebayfeed.api import Api
+from ebayfeed.credentials import Credentials
+
+
+def mock_response(status_code=200, expires_in=7200, raise_for_status=None):
+    mock_rsp = Mock()
+    mock_rsp.json = Mock(side_effect=[{'expires_in': expires_in, 'access_token': 'OLD_token'},
+                                      {'expires_in': expires_in, 'access_token': 'NEW_token'}])
+    mock_rsp.raise_for_status = Mock()
+    if raise_for_status:
+        mock_rsp.raise_for_status.side_effect = raise_for_status
+    mock_rsp.status_code = status_code
+    return mock_rsp
 
 
 script_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'test_credentials.yaml')
@@ -13,3 +28,4 @@ client_id = config[ENVIRONMENT_SANDBOX]['app-id']
 client_secret = config[ENVIRONMENT_SANDBOX]['cert-id']
 
 api = Api(env=ENVIRONMENT_SANDBOX)
+credentials = Credentials(client_id, client_secret, api)
