@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
 import time
-from tests import client_id, client_secret
+from tests import client_id, client_secret, api
 from mock import Mock, patch
 
-from ebayfeed.constants import ENVIRONMENT_SANDBOX
-from ebayfeed.api import Api
 from ebayfeed.credentials import Credentials
 from ebayfeed.utils import get_base64_oauth
 
@@ -20,8 +18,7 @@ def mock_response(expires_in=7200):
 
 class TestCredentials(unittest.TestCase):
     def setUp(self):
-        self.api = Api(env=ENVIRONMENT_SANDBOX)
-        self.credentials = Credentials(client_id, client_secret, self.api)
+        self.credentials = Credentials(client_id, client_secret, api)
 
     @patch('ebayfeed.api.requests.post')
     def test_request_is_correct(self, mock_request):
@@ -29,7 +26,7 @@ class TestCredentials(unittest.TestCase):
         # trigger api call
         self.credentials.access_token
         # actual vs expected
-        expected_uri = '{}/{}'.format(self.api.uri, 'identity/v1/oauth2/token')
+        expected_uri = '{}/{}'.format(api.uri, 'identity/v1/oauth2/token')
         expected_headers = {'Authorization': 'Basic {}'.format(get_base64_oauth(client_id, client_secret))}
         expected_params = {'grant_type': 'client_credentials',
                            'scope': 'https://api.ebay.com/oauth/api_scope/buy.item.feed'}
@@ -57,7 +54,7 @@ class TestCredentials(unittest.TestCase):
         # reset mock
         mock_request.reset_mock()
         # get access_token from cache
-        for i in range(10):
+        for _ in range(10):
             self.assertEqual('OLD_token', self.credentials.access_token)
             mock_request.assert_not_called()
         # invalidate cache

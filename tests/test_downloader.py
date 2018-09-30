@@ -1,26 +1,21 @@
 # -*- coding: utf-8 -*-
 import unittest
 from mock import Mock, patch, PropertyMock
-from tests import client_id, client_secret
+from tests import client_id, client_secret, api
+from tests.test_constants import a_category, a_marketplace, a_token, a_date, a_scope
 
-from ebayfeed import *
-
-
-a_token = 'a_token'
-a_category = 267
-a_scope = FEED_SCOPE_ALL_ACTIVE
-a_marketplace = MARKETPLACE_US
-a_date = '20180102'
+from ebayfeed.credentials import Credentials
+from ebayfeed.constants import FEED_SCOPE_ALL_ACTIVE, FEED_SCOPE_NEWLY_LISTED, MARKETPLACE_US
+from ebayfeed.downloader import download_tsv, _download_chunks, _date_format_is_correct, _build_req_params
 
 
 class TestDownloader(unittest.TestCase):
     def setUp(self):
-        self.api = Api(env=ENVIRONMENT_SANDBOX)
-        self.credentials = Credentials(client_id, client_secret, self.api)
+        self.credentials = Credentials(client_id, client_secret, api)
 
     def test_raise_for_newly_listed_without_date(self):
         with self.assertRaises(ValueError):
-            download_tsv(self.api, self.credentials, a_category, FEED_SCOPE_NEWLY_LISTED, a_marketplace)
+            download_tsv(api, self.credentials, a_category, FEED_SCOPE_NEWLY_LISTED, a_marketplace)
 
     @patch('ebayfeed.Credentials.access_token', new_callable=PropertyMock)
     def test_req_headers_and_params_are_ok(self, mock_access_token):
@@ -50,19 +45,19 @@ class TestDownloader(unittest.TestCase):
         fake_rsp = Mock(content='.', headers={'Content-Range': 'x/{}'.format(feed_length)}, status_code=206)
         mock_api_get.return_value = fake_rsp
         # brange = 0 = advance by 1 each loop
-        downloader._download_chunks(self.api, {}, {}, 0)
+        _download_chunks(api, {}, {}, 0)
         self.assertEqual(10, mock_api_get.call_count)
         mock_api_get.reset_mock()
         # 10/(1+1) -> 5 loops
-        downloader._download_chunks(self.api, {}, {}, 1)
+        _download_chunks(api, {}, {}, 1)
         self.assertEqual(5, mock_api_get.call_count)
         mock_api_get.reset_mock()
         # 10/(10+1) -> 1 loop
-        downloader._download_chunks(self.api, {}, {}, 10)
+        _download_chunks(api, {}, {}, 10)
         self.assertEqual(1, mock_api_get.call_count)
         mock_api_get.reset_mock()
         # 10/(10000+1) -> 1 loop
-        downloader._download_chunks(self.api, {}, {}, 10000)
+        _download_chunks(api, {}, {}, 10000)
         self.assertEqual(1, mock_api_get.call_count)
 
     @patch('ebayfeed.Api.get')
@@ -71,17 +66,17 @@ class TestDownloader(unittest.TestCase):
         type(fake_rsp).status_code = PropertyMock(side_effect=[206, 206, 401])
         mock_api_get.return_value = fake_rsp
         # 3 loops, stopped by status_code 401
-        downloader._download_chunks(self.api, {}, {}, 0)
+        _download_chunks(api, {}, {}, 0)
         self.assertEqual(3, mock_api_get.call_count)
         mock_api_get.reset_mock()
         # 1 loop is enough to read till eof
-        downloader._download_chunks(self.api, {}, {}, 10)
+        _download_chunks(api, {}, {}, 10)
         self.assertEqual(1, mock_api_get.call_count)
 
     def test_raise_on_wrong_format_works(self):
         with self.assertRaises(ValueError):
-            downloader._date_format_is_correct('wrong_date_format')
-        self.assertTrue(downloader._date_format_is_correct('20180923'))
+            _date_format_is_correct('wrong_date_format')
+        self.assertTrue(_date_format_is_correct('20180923'))
 
     @patch('ebayfeed.Credentials.access_token', new_callable=PropertyMock)
     def test_correct_route_and_params(self, mock_access_token):
@@ -106,7 +101,7 @@ class TestDownloader(unittest.TestCase):
             self._build_req_params('wrong_date_format')
 
     def _build_req_params(self, date=None):
-        return downloader._build_req_params(self.credentials, a_category, a_scope, a_marketplace, date)
+        return _build_req_params(self.credentials, a_category, a_scope, a_marketplace, date)
 
 
 if __name__ == '__main__':
