@@ -20,7 +20,12 @@ def mock_response(status_code=200, expires_in=7200, raise_for_status=None):
     return mock_rsp
 
 
-script_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'test_credentials.yaml')
+def get_test_path(_file):
+    tests_path = os.path.dirname(os.path.realpath(__file__))
+    return os.path.join(tests_path, _file)
+
+
+script_path = get_test_path('test_credentials.yaml')
 with open(script_path, 'r') as f:
     config = yaml.load(f)
 

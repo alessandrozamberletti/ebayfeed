@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
 from mock import Mock, patch, PropertyMock
-from tests import api, credentials, a_category, a_marketplace, a_token, a_date, a_scope
+from tests import api, credentials, a_category, a_marketplace, a_token, a_date, a_scope, a_range, get_test_path
+from pandas import DataFrame
 
-from ebayfeed.constants import FEED_SCOPE_ALL_ACTIVE, FEED_SCOPE_NEWLY_LISTED, MARKETPLACE_US
-from ebayfeed.downloader import _download_tsv, _download_chunks, _date_format_is_correct, _build_req_params
+from ebayfeed.constants import *
+from ebayfeed.downloader import get_feed, _download_tsv, _download_chunks, _date_is_correct, _build_req_params, _tsv2df
 
 
 def build_req_params(date=None):
@@ -15,10 +16,13 @@ class TestDownloader(unittest.TestCase):
     def setUp(self):
         # cleanup credentials cache
         credentials.invalidate_cache()
+        # load test feed
+        with open(get_test_path('test_feed.tsv')) as f:
+            self.tsv_feed = f.read()
 
     def test_raise_for_newly_listed_without_date(self):
         with self.assertRaises(ValueError):
-            _download_tsv(api, credentials, a_category, FEED_SCOPE_NEWLY_LISTED, a_marketplace)
+            get_feed(api, credentials, a_category, FEED_SCOPE_NEWLY_LISTED, a_marketplace)
 
     @patch('ebayfeed.Credentials.access_token', new_callable=PropertyMock)
     def test_req_headers_and_params_are_ok(self, mock_access_token):
@@ -78,8 +82,8 @@ class TestDownloader(unittest.TestCase):
 
     def test_raise_on_wrong_format_works(self):
         with self.assertRaises(ValueError):
-            _date_format_is_correct('wrong_date_format')
-        self.assertTrue(_date_format_is_correct('20180923'))
+            _date_is_correct('wrong_date_format')
+        self.assertTrue(_date_is_correct('20180923'))
 
     @patch('ebayfeed.Credentials.access_token', new_callable=PropertyMock)
     def test_correct_route_and_params(self, mock_access_token):
@@ -104,14 +108,37 @@ class TestDownloader(unittest.TestCase):
         with self.assertRaises(ValueError):
             build_req_params('wrong_date_format')
 
-    def test_get_feed(self):
-        raise ValueError('implement me')
+    @patch('ebayfeed.downloader._download_tsv', new_callable=PropertyMock)
+    def test_get_feed_format(self, mock_download_tsv):
+        def correct_call_params(mock):
+            mock.assert_called_once_with(api, credentials, a_category, a_scope, a_marketplace, None, CHUNK_10MB)
+        mock_download_tsv.return_value = self.tsv_feed
+        # format tsv
+        tsv_feed = get_feed(api, credentials, a_category, a_scope, a_marketplace, feed_format=FORMAT_TSV)
+        correct_call_params(mock_download_tsv)
+        self.assertTrue(isinstance(tsv_feed, basestring))
+        self.assertEqual(5, len(tsv_feed.splitlines()))  # includes header
+        mock_download_tsv.reset_mock()
+        # format dataframe
+        df_feed = get_feed(api, credentials, a_category, a_scope, a_marketplace, feed_format=FORMAT_DATAFRAME)
+        correct_call_params(mock_download_tsv)
+        self.assertTrue(isinstance(df_feed, DataFrame))
+        self.assertEqual(4, len(df_feed.index))
 
-    def test_tsv_to_df(self):
-        raise ValueError('implement me')
+    def test_tsv2df(self):
+        df_feed = _tsv2df(self.tsv_feed)
+        self.assertEqual(51, len(df_feed.columns))
+        self.assertEqual(4, len(df_feed.index))
+        self.assertEqual('PAYPAL', df_feed['AcceptedPaymentMethods'].all())
 
-    def test_download_tsv_calls_gunzip(self):
-        raise ValueError('implement me')
+    @patch('ebayfeed.downloader._build_req_params', new_callable=PropertyMock)
+    @patch('ebayfeed.downloader._download_chunks', new_callable=PropertyMock)
+    @patch('ebayfeed.downloader.gunzip', new_callable=PropertyMock)
+    def test_download_tsv_calls_gunzip(self, mock_gunzip, mock_download_chunks, mock_build_req_params):
+        mock_build_req_params.return_value = ({}, {})
+        mock_download_chunks.return_value = 'gunzipped_feed'
+        _download_tsv(api, credentials, a_category, a_scope, a_marketplace, a_date, a_range)
+        mock_gunzip.assert_called_once_with('gunzipped_feed')
 
 
 if __name__ == '__main__':
