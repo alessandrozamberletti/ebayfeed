@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 
-from ebayfeed.constants import FEED_SCOPE_NEWLY_LISTED
+from ebayfeed.constants import FEED_SCOPE_NEWLY_LISTED, FEED_FORMAT_TSV
 from ebayfeed.utils import gunzip
 
 
 _ROUTE = 'buy/feed/v1_beta/item'
 
 
-def download_tsv(api, credentials, category, scope, marketplace, date=None, brange=1e+7):
+def get_feed(api, credentials, category, scope, marketplace, date=None, brange=1e+7, feed_format=FEED_FORMAT_TSV):
     """
-    Download eBay TSV feed for the given category, scope and marketplace using the provided credentials.
+    Download eBay feed for the given category, scope and marketplace using the provided credentials.
     See: https://developer.ebay.com/_api-docs/buy/feed/resources/item/methods/getItemFeed.
 
     Args:
@@ -23,13 +23,29 @@ def download_tsv(api, credentials, category, scope, marketplace, date=None, bran
                               Format: yyyyMMdd. Ignored when scope is FEED_SCOPE_ALL_ACTIVE.
         brange (int, optional): Number of bytes downloaded at each call to FeedAPI. Must be between 1 and 1e+7.
                                 Default: 1e+7 (10mb).
+        feed_format (str, optional): Output format for the requested feed. Must be one of [
+                                     FEED_FORMAT_TSV, FEED_FORMAT_DATAFRAME]. Default: FEED_FORMAT_TSV.
 
     Returns:
-        str: Requested TSV feed in str format.
+        str or dataframe: Requested feed in TSV (str) format if feed_format=FEED_FORMAT_TSV.
+                          If feed_format=FEED_FORMAT_DATAFRAME a pandas dataframe is returned.
 
     Raises:
         ValueError: If scope is FEED_SCOPE_NEWLY_LISTED and date is None.
     """
+    tsv_feed = _download_tsv(api, credentials, category, scope, marketplace, date, brange)
+    if feed_format == FEED_FORMAT_TSV:
+        return tsv_feed
+    return _tsv_to_df(tsv_feed)
+
+
+def _tsv_to_df(tsv_feed):
+    # convert tsv feed format to pandas dataframe
+    raise ValueError('implement me')
+
+
+def _download_tsv(api, credentials, category, scope, marketplace, date=None, brange=1e+7):
+    # download and gunzip TSV feed for the given category, scope and marketplace using the provided credentials.
     if scope == FEED_SCOPE_NEWLY_LISTED and date is None:
         raise ValueError('date must be specified when scope is {}'.format(FEED_SCOPE_NEWLY_LISTED))
     headers, params = _build_req_params(credentials, category, scope, marketplace, date)

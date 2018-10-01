@@ -21,3 +21,7 @@ MARKETPLACE_DE = 'EBAY-DE'
 # - newly_listed = newly listed items for a specific date
 FEED_SCOPE_ALL_ACTIVE = 'ALL_ACTIVE'
 FEED_SCOPE_NEWLY_LISTED = 'NEWLY_LISTED'
+
+# eBay feeds download formats
+FEED_FORMAT_TSV = 'TSV'
+FEED_FORMAT_DATAFRAME = 'DATAFRAME'

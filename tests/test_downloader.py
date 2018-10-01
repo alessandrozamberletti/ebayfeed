@@ -4,7 +4,7 @@ from mock import Mock, patch, PropertyMock
 from tests import api, credentials, a_category, a_marketplace, a_token, a_date, a_scope
 
 from ebayfeed.constants import FEED_SCOPE_ALL_ACTIVE, FEED_SCOPE_NEWLY_LISTED, MARKETPLACE_US
-from ebayfeed.downloader import download_tsv, _download_chunks, _date_format_is_correct, _build_req_params
+from ebayfeed.downloader import _download_tsv, _download_chunks, _date_format_is_correct, _build_req_params
 
 
 def build_req_params(date=None):
@@ -18,7 +18,7 @@ class TestDownloader(unittest.TestCase):
 
     def test_raise_for_newly_listed_without_date(self):
         with self.assertRaises(ValueError):
-            download_tsv(api, credentials, a_category, FEED_SCOPE_NEWLY_LISTED, a_marketplace)
+            _download_tsv(api, credentials, a_category, FEED_SCOPE_NEWLY_LISTED, a_marketplace)
 
     @patch('ebayfeed.Credentials.access_token', new_callable=PropertyMock)
     def test_req_headers_and_params_are_ok(self, mock_access_token):
@@ -103,6 +103,15 @@ class TestDownloader(unittest.TestCase):
         mock_access_token.return_value = a_token
         with self.assertRaises(ValueError):
             build_req_params('wrong_date_format')
+
+    def test_get_feed(self):
+        raise ValueError('implement me')
+
+    def test_tsv_to_df(self):
+        raise ValueError('implement me')
+
+    def test_download_tsv_calls_gunzip(self):
+        raise ValueError('implement me')
 
 
 if __name__ == '__main__':
