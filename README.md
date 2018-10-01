@@ -2,10 +2,10 @@
 Download eBay feeds from FeedAPI using Python.
 
 ```python
-import ebayfeed as ebay
+from ebayfeed import Api, Credentials, get_feed, FEED_SCOPE_ALL_ACTIVE, MARKETPLACE_US
 
-credentials = ebay.Credentials(client_id, client_secret, ebay.Api())
-feed = ebay.get_feed(api, credentials, category, ebay.FEED_SCOPE_ALL_ACTIVE, ebay.MARKETPLACE_US)
+credentials = Credentials(client_id, client_secret, Api())
+feed = get_feed(api, credentials, category, FEED_SCOPE_ALL_ACTIVE, MARKETPLACE_US)
 ```
 
 # References
