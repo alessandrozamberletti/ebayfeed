@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-import unittest
-import time
+from unittest import TestCase, main
+from time import sleep
 from mock import patch
-from tests import client_id, client_secret, api, credentials, mock_response
+from tests import client_id, client_secret, api, credentials
+from tests.test_commons import mock_response
 
 from ebayfeed.utils import get_base64_oauth
 
 
-class TestCredentials(unittest.TestCase):
+class TestCredentials(TestCase):
     def setUp(self):
-        # cleanup credentials cache
+        # drop cache
         credentials.invalidate_cache()
 
-    @patch('ebayfeed.api.requests.post')
+    @patch('ebayfeed.api.post')
     def test_request_is_correct(self, mock_request):
         mock_request.return_value = mock_response()
         # trigger api call
@@ -24,7 +25,7 @@ class TestCredentials(unittest.TestCase):
                            'scope': 'https://api.ebay.com/oauth/api_scope/buy.item.feed'}
         mock_request.assert_called_once_with(expected_uri, headers=expected_headers, params=expected_params)
 
-    @patch('ebayfeed.api.requests.post')
+    @patch('ebayfeed.api.post')
     def test_cache_ttl_works(self, mock_request):
         ttl = 5
         mock_request.return_value = mock_response(expires_in=ttl)
@@ -32,12 +33,12 @@ class TestCredentials(unittest.TestCase):
         self.assertEqual('OLD_token', credentials.access_token)
         old_req_ts = credentials._req_ts
         # wait for access_token expiration
-        time.sleep(ttl)
+        sleep(ttl)
         # query api and load access_token into cache
         self.assertEqual('NEW_token', credentials.access_token)
         self.assertGreater(credentials._req_ts, old_req_ts)
 
-    @patch('ebayfeed.api.requests.post')
+    @patch('ebayfeed.api.post')
     def test_invalidate_cache_works(self, mock_request):
         mock_request.return_value = mock_response()
         # query api and load access_token into cache
@@ -45,7 +46,7 @@ class TestCredentials(unittest.TestCase):
         mock_request.assert_called_once()
         # reset mock
         mock_request.reset_mock()
-        # get access_token from cache
+        # access_token should be retrieved from cache
         for _ in range(10):
             self.assertEqual('OLD_token', credentials.access_token)
             mock_request.assert_not_called()
@@ -57,4 +58,4 @@ class TestCredentials(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    main()

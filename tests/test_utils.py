@@ -1,29 +1,30 @@
 # -*- coding: utf-8 -*-
-import unittest
-import StringIO
-import gzip
+from unittest import TestCase, main
+from gzip import GzipFile
+from io import BytesIO
+
 
 from ebayfeed.constants import ENVIRONMENT_PRODUCTION, ENVIRONMENT_SANDBOX, PRODUCTION_API_URI, SANDBOX_API_URI
 from ebayfeed.utils import gunzip, get_base64_oauth, get_api_uri
 
 
-def compress(msg):
-    out = StringIO.StringIO()
-    with gzip.GzipFile(fileobj=out, mode="w") as f:
+def _compress(msg):
+    out = BytesIO()
+    with GzipFile(fileobj=out, mode='w') as f:
         f.write(msg)
     return out.getvalue()
 
 
-class TestBase(unittest.TestCase):
+class TestBase(TestCase):
     def test_gunzip_empty_byte_empty_rsp(self):
-        self.assertEqual('', gunzip(''))
+        self.assertEqual('', gunzip(b''))
 
     def test_gunzip_raise_for_wrong_str(self):
         with self.assertRaises(IOError):
-            gunzip('im not a gzip file')
+            gunzip(b'im not a gzip file')
 
     def test_gunzip_works(self):
-        self.assertEqual('ciao', gunzip(compress('ciao')))
+        self.assertEqual('ciao', gunzip(_compress(b'ciao')))
 
     def test_get_base64_oauth(self):
         self.assertEqual('dXNlcjprZXk=', get_base64_oauth('user', 'key'))
@@ -34,4 +35,4 @@ class TestBase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    main()

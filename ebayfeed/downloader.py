@@ -3,14 +3,14 @@ from datetime import datetime
 from pandas import read_table
 from pandas.compat import StringIO
 
-from ebayfeed.constants import FEED_SCOPE_NEWLY_LISTED, FORMAT_TSV, FORMAT_DATAFRAME, CHUNK_10MB
+from ebayfeed.constants import SCOPE_NEWLY_LISTED, FORMAT_TSV, FORMAT_DATAFRAME, MB10
 from ebayfeed.utils import gunzip
 
 
 _ROUTE = 'buy/feed/v1_beta/item'
 
 
-def get_feed(api, credentials, category, scope, marketplace, date=None, brange=CHUNK_10MB, feed_format=FORMAT_DATAFRAME):
+def get_feed(api, credentials, category, scope, marketplace, date=None, brange=MB10, feed_format=FORMAT_DATAFRAME):
     """
     Download eBay feed for the given category, scope and marketplace using the provided credentials.
     See: https://developer.ebay.com/_api-docs/buy/feed/resources/item/methods/getItemFeed.
@@ -19,12 +19,12 @@ def get_feed(api, credentials, category, scope, marketplace, date=None, brange=C
         api (obj): An Api object used as entry point to Ebay Feed APIs
         credentials (obj): A Credentials object used to obtain an API access_token
         category (int): An eBay top-level category ID of the items to be returned in the feed file.
-        scope (str): Feed type to return. Must be one of [FEED_SCOPE_ALL_ACTIVE, FEED_SCOPE_NEWLY_LISTED].
+        scope (str): Feed type to return. Must be one of [SCOPE_ALL_ACTIVE, SCOPE_NEWLY_LISTED].
         marketplace (str): The ID for the eBay marketplace where the items are hosted.
         date (str, optional): Date of the feed file to retrieve. Must be within 3-14 days in the past.
-                              Format: yyyyMMdd. Ignored when scope is FEED_SCOPE_ALL_ACTIVE.
+                              Format: yyyyMMdd. Ignored when scope is SCOPE_ALL_ACTIVE.
         brange (int, optional): Number of bytes downloaded at each call to FeedAPI. Must be between 1 and 1e+7.
-                                Default: 1e+7 (10mb).
+                                Default: 1e+7 (MB10).
         feed_format (str, optional): Output format for the requested feed. Must be one of
                                      [FORMAT_TSV, FORMAT_DATAFRAME]. Default: FORMAT_TSV.
 
@@ -33,10 +33,10 @@ def get_feed(api, credentials, category, scope, marketplace, date=None, brange=C
                           If feed_format=FORMAT_DATAFRAME a pandas dataframe is returned.
 
     Raises:
-        ValueError: If scope is FEED_SCOPE_NEWLY_LISTED and date is None.
+        ValueError: If scope is SCOPE_NEWLY_LISTED and date is None.
     """
-    if scope == FEED_SCOPE_NEWLY_LISTED and date is None:
-        raise ValueError('date must be specified when scope is {}'.format(FEED_SCOPE_NEWLY_LISTED))
+    if scope == SCOPE_NEWLY_LISTED and date is None:
+        raise ValueError('date must be specified when scope is {}'.format(SCOPE_NEWLY_LISTED))
     tsv_feed = _download_tsv(api, credentials, category, scope, marketplace, date, brange)
     if feed_format == FORMAT_TSV:
         return tsv_feed
@@ -80,13 +80,13 @@ def _date_is_correct(date):
 
 def _download_chunks(api, headers, params, brange):
     # download feed chunks and cat them together
-    feed_gz = ''
+    feed_gz = b''
     bstart = 0
     while True:
         headers['Range'] = 'bytes={}-{}'.format(bstart, bstart + brange)
         bstart += brange + 1
         rsp = api.get(_ROUTE, headers, params)
-        feed_gz += rsp.content
+        feed_gz = b''.join([feed_gz, rsp.content])
         feed_length = _get_feed_length(rsp.headers['Content-Range'])
         if bstart >= feed_length or rsp.status_code != 206:
             break

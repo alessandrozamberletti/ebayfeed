@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 
-from utils import get_base64_oauth
+from ebayfeed.utils import get_base64_oauth
 
 
 class Credentials:

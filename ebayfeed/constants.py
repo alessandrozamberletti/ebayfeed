@@ -11,20 +11,20 @@ SANDBOX_API_URI = 'https://api.sandbox.ebay.com'
 ENVIRONMENT_TO_API_DICT = {ENVIRONMENT_PRODUCTION: PRODUCTION_API_URI,
                            ENVIRONMENT_SANDBOX: SANDBOX_API_URI}
 
-# currently available eBay marketplaces
+# currently available marketplaces
 MARKETPLACE_US = 'EBAY-US'
 MARKETPLACE_GB = 'EBAY-GB'
 MARKETPLACE_DE = 'EBAY-DE'
 
-# eBay feed scopes:
+# feed scopes:
 # - all_active = all items (new, buy now, trusted)
 # - newly_listed = newly listed items for a specific date
-FEED_SCOPE_ALL_ACTIVE = 'ALL_ACTIVE'
-FEED_SCOPE_NEWLY_LISTED = 'NEWLY_LISTED'
+SCOPE_ALL_ACTIVE = 'ALL_ACTIVE'
+SCOPE_NEWLY_LISTED = 'NEWLY_LISTED'
 
-# eBay feeds download formats
+# feed formats
 FORMAT_TSV = 'TSV'
 FORMAT_DATAFRAME = 'DATAFRAME'
 
-# eBay chunk size
-CHUNK_10MB = 1e+7
+# chunk size
+MB10 = 1e+7

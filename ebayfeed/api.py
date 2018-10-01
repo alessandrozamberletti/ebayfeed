@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import requests
+from requests import get, post
 
 from ebayfeed.constants import ENVIRONMENT_PRODUCTION
 from ebayfeed.utils import get_api_uri
@@ -29,7 +29,7 @@ class Api:
             headers (dict, optional): Dictionary of request headers, default empty.
             params (dict, optional): Dictionary of request parameters, default empty.
         """
-        rsp = requests.post('{}/{}'.format(self.uri, route), headers=headers, params=params)
+        rsp = post('{}/{}'.format(self.uri, route), headers=headers, params=params)
         rsp.raise_for_status()
         return rsp
 
@@ -42,6 +42,6 @@ class Api:
             headers (dict, optional): Dictionary of request headers, default empty.
             params (dict, optional): Dictionary of request parameters, default empty.
         """
-        rsp = requests.get('{}/{}'.format(self.uri, route), headers=headers, params=params)
+        rsp = get('{}/{}'.format(self.uri, route), headers=headers, params=params)
         rsp.raise_for_status()
         return rsp
