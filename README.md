@@ -1,5 +1,5 @@
 # ebay-feedsdk-py
-Download eBay feeds from FeedAPI using Python.
+Download item feeds from eBay FeedAPI using Python.
 
 ```python
 from ebayfeed import Api, Credentials, get_feed, FEED_SCOPE_ALL_ACTIVE, MARKETPLACE_US
