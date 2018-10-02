@@ -22,9 +22,9 @@ class Credentials:
             client_secret (str): Cert-ID (Client-Secret) from application keyset.
         """
         self._b64 = get_base64_oauth(client_id, client_secret)
-        self._api = api  # _api access pt
+        self._api = api  #: _api access pt
         self._req_ts = None  #: timestamp of last access token _api request
-        self._access_token = None  # _api access_token
+        self._access_token = None  #: _api access_token
         self._ttl = None  #: access token expiration time in seconds
 
     @property

@@ -8,7 +8,7 @@ from ebayfeed.api import Api
 from ebayfeed.credentials import Credentials
 
 
-script_path = get_test_path('test_credentials.yaml')
+script_path = get_test_path('test_credentials.yml')
 with open(script_path, 'r') as f:
     config = load(f)
 

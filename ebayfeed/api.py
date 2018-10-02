@@ -18,7 +18,7 @@ class Api:
             env (str, optional): eBay environment. Must be one of [ENVIRONMENT_PRODUCTION, ENVIRONMENT_SANDBOX].
                                  Default: EBAY_PRODUCTION.
         """
-        self.uri = get_api_uri(env)
+        self.uri = get_api_uri(env)  #: eBay API uri
 
     def post(self, route, headers={}, params={}):
         """

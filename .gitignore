@@ -105,3 +105,4 @@ venv.bak/
 
 # pycharm confs
 .idea/
+venv*/
