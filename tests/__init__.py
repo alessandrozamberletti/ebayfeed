@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from yaml import load
+from json import load
 from tests.test_commons import get_test_path
 from tests.test_constants import *
 
@@ -8,7 +8,7 @@ from ebayfeed.api import Api
 from ebayfeed.credentials import Credentials
 
 
-script_path = get_test_path('test_credentials.yml')
+script_path = get_test_path('test_credentials.json')
 with open(script_path, 'r') as f:
     config = load(f)
 
