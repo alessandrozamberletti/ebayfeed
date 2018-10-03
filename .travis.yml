@@ -3,8 +3,7 @@ sudo:
 language:
   - python
 os:
-- linux
-- osx
+  - linux
 python:
   - '2.7'
   - '3.4'
