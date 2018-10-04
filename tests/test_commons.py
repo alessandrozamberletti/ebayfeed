@@ -5,8 +5,12 @@ from mock import Mock
 
 def mock_response(status_code=200, expires_in=7200, raise_for_status=None):
     mock_rsp = Mock()
-    mock_rsp.json = Mock(side_effect=[{'expires_in': expires_in, 'access_token': 'OLD_token'},
-                                      {'expires_in': expires_in, 'access_token': 'NEW_token'}])
+    mock_rsp.json = Mock(
+        side_effect=[
+            {"expires_in": expires_in, "access_token": "OLD_token"},
+            {"expires_in": expires_in, "access_token": "NEW_token"},
+        ]
+    )
     mock_rsp.raise_for_status = Mock()
     if raise_for_status:
         mock_rsp.raise_for_status.side_effect = raise_for_status
