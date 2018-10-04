@@ -10,9 +10,12 @@ class Credentials:
     Grant access_token to Ebay sandbox and production FeedAPI by following the client credentials grant flow.
     See: https://developer.ebay.com/_api-docs/static/oauth-client-_credentials-grant.html
     """
-    _OAUTH2_ROUTE = 'identity/v1/oauth2/token'
-    _PARAMS = {'grant_type': 'client_credentials',
-               'scope': 'https://api.ebay.com/oauth/api_scope/buy.item.feed'}
+
+    _OAUTH2_ROUTE = "identity/v1/oauth2/token"
+    _PARAMS = {
+        "grant_type": "client_credentials",
+        "scope": "https://api.ebay.com/oauth/api_scope/buy.item.feed",
+    }
 
     def __init__(self, client_id, client_secret, api=Api()):
         """
@@ -37,12 +40,12 @@ class Credentials:
         """
         if self._access_token and time() < self._req_ts + self._ttl:
             return self._access_token
-        headers = {'Authorization': 'Basic {}'.format(self._b64)}
+        headers = {"Authorization": "Basic {}".format(self._b64)}
         self._req_ts = time()
         rsp = self._api.post(self._OAUTH2_ROUTE, headers, self._PARAMS)
         rsp = rsp.json()
-        self._ttl = int(rsp['expires_in'])
-        self._access_token = rsp['access_token']
+        self._ttl = int(rsp["expires_in"])
+        self._access_token = rsp["access_token"]
         return self._access_token
 
     def invalidate_cache(self):

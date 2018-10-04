@@ -29,7 +29,7 @@ class Api:
             headers (dict, optional): Dictionary of request headers. Default: empty.
             params (dict, optional): Dictionary of request parameters, Default: empty.
         """
-        rsp = post('{}/{}'.format(self.uri, route), headers=headers, params=params)
+        rsp = post("{}/{}".format(self.uri, route), headers=headers, params=params)
         rsp.raise_for_status()
         return rsp
 
@@ -42,6 +42,6 @@ class Api:
             headers (dict, optional): Dictionary of request headers. Default: empty.
             params (dict, optional): Dictionary of request parameters. Default: empty.
         """
-        rsp = get('{}/{}'.format(self.uri, route), headers=headers, params=params)
+        rsp = get("{}/{}".format(self.uri, route), headers=headers, params=params)
         rsp.raise_for_status()
         return rsp

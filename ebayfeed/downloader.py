@@ -6,10 +6,12 @@ from ebayfeed.utils import gunzip
 from ebayfeed.api import Api
 
 
-_ROUTE = 'buy/feed/v1_beta/item'
+_ROUTE = "buy/feed/v1_beta/item"
 
 
-def get_feed(credentials, category, scope, marketplace, api=Api(), date=None, brange=MB10):
+def get_feed(
+    credentials, category, scope, marketplace, api=Api(), date=None, brange=MB10
+):
     """
     Download eBay feed for the given category, scope and marketplace using the provided credentials.
     See: https://developer.ebay.com/_api-docs/buy/feed/resources/item/methods/getItemFeed.
@@ -32,8 +34,12 @@ def get_feed(credentials, category, scope, marketplace, api=Api(), date=None, br
         ValueError: If scope is SCOPE_NEWLY_LISTED and date is None.
     """
     if scope == SCOPE_NEWLY_LISTED and date is None:
-        raise ValueError('date must be specified when scope is {}'.format(SCOPE_NEWLY_LISTED))
-    feed_tsv = _download_tsv(api, credentials, category, scope, marketplace, date, brange)
+        raise ValueError(
+            "date must be specified when scope is {}".format(SCOPE_NEWLY_LISTED)
+        )
+    feed_tsv = _download_tsv(
+        api, credentials, category, scope, marketplace, date, brange
+    )
     return feed_tsv.splitlines()
 
 
@@ -47,35 +53,32 @@ def _download_tsv(api, credentials, category, scope, marketplace, date, brange):
 def _build_req_params(credentials, category, scope, marketplace, date):
     # headers and params for /getItemFeed call
     headers = {
-        'X-EBAY-C-MARKETPLACE-ID': marketplace,
-        'Authorization': 'Bearer {}'.format(credentials.access_token),
+        "X-EBAY-C-MARKETPLACE-ID": marketplace,
+        "Authorization": "Bearer {}".format(credentials.access_token),
     }
-    params = {
-        'feed_scope': scope,
-        'category_id': category,
-    }
+    params = {"feed_scope": scope, "category_id": category}
     if date:
         _date_is_correct(date)
-        params['date'] = date
+        params["date"] = date
     return headers, params
 
 
 def _date_is_correct(date):
     # check date satisfies yyyyMMdd format, else raise valueError
-    datetime.strptime(date, '%Y%m%d')
+    datetime.strptime(date, "%Y%m%d")
     return True
 
 
 def _download_chunks(api, headers, params, brange):
     # download feed chunks and cat them together
-    feed_gz = b''
+    feed_gz = b""
     bstart = 0
     while True:
-        headers['Range'] = 'bytes={}-{}'.format(bstart, bstart + brange)
+        headers["Range"] = "bytes={}-{}".format(bstart, bstart + brange)
         bstart += brange + 1
         rsp = api.get(_ROUTE, headers, params)
-        feed_gz = b''.join([feed_gz, rsp.content])
-        feed_length = _get_feed_length(rsp.headers['Content-Range'])
+        feed_gz = b"".join([feed_gz, rsp.content])
+        feed_length = _get_feed_length(rsp.headers["Content-Range"])
         if bstart >= feed_length or rsp.status_code != 206:
             break
     return feed_gz
@@ -83,4 +86,4 @@ def _download_chunks(api, headers, params, brange):
 
 def _get_feed_length(content_range):
     # extract feed length (in byte) from response header Content-Range
-    return int(content_range.split('/')[-1])
+    return int(content_range.split("/")[-1])

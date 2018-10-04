@@ -23,7 +23,7 @@ def gunzip(byte_str_gz):
     bstream = BytesIO()
     bstream.write(byte_str_gz)
     bstream.seek(0)
-    with GzipFile(fileobj=bstream, mode='rb') as bs:
+    with GzipFile(fileobj=bstream, mode="rb") as bs:
         compressed_bytes = bs.read()
     return compressed_bytes.decode()
 
@@ -39,7 +39,9 @@ def get_base64_oauth(client_id, client_secret):
     Returns:
         str: Base64-encoded OAuth credentials (<client_id>:<client_secret>).
     """
-    credentials = '{}:{}'.format(client_id, client_secret).encode('utf-8')  # python 3.x compatibility
+    credentials = "{}:{}".format(client_id, client_secret).encode(
+        "utf-8"
+    )  # python 3.x compatibility
     return b64encode(credentials).decode("utf-8")
 
 
