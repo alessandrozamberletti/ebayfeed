@@ -2,10 +2,10 @@
 from unittest import TestCase, main
 from mock import Mock, patch, PropertyMock
 from tests import api, credentials, a_category, a_marketplace, a_token, a_date, a_scope, a_range, get_test_path
-from pandas import DataFrame
+from re import split
 
-from ebayfeed.constants import SCOPE_NEWLY_LISTED, SCOPE_ALL_ACTIVE, MARKETPLACE_US, MB10, FORMAT_TSV, FORMAT_DATAFRAME
-from ebayfeed.downloader import get_feed, _download_tsv, _download_chunks, _date_is_correct, _build_req_params, _tsv2df
+from ebayfeed.constants import SCOPE_NEWLY_LISTED, SCOPE_ALL_ACTIVE, MARKETPLACE_US, MB10
+from ebayfeed.downloader import get_feed, _download_tsv, _download_chunks, _date_is_correct, _build_req_params
 
 
 def _build_test_req_params(date=None):
@@ -22,7 +22,7 @@ class TestDownloader(TestCase):
 
     def test_raise_for_newly_listed_without_date(self):
         with self.assertRaises(ValueError):
-            get_feed(api, credentials, a_category, SCOPE_NEWLY_LISTED, a_marketplace)
+            get_feed(credentials, a_category, SCOPE_NEWLY_LISTED, a_marketplace, api=api)
 
     @patch('ebayfeed.Credentials.access_token', new_callable=PropertyMock)
     def test_req_headers_and_params_are_ok(self, mock_access_token):
@@ -113,23 +113,12 @@ class TestDownloader(TestCase):
         def correct_call_params(mock):
             mock.assert_called_once_with(api, credentials, a_category, a_scope, a_marketplace, None, MB10)
         mock_download_tsv.return_value = self.tsv_feed
-        # format tsv
-        tsv_feed = get_feed(api, credentials, a_category, a_scope, a_marketplace, feed_format=FORMAT_TSV)
+        tsv_feed = get_feed(credentials, a_category, a_scope, a_marketplace, api=api)
         correct_call_params(mock_download_tsv)
-        self.assertTrue(isinstance(tsv_feed, str))
-        self.assertEqual(5, len(tsv_feed.splitlines()))  # includes header
-        mock_download_tsv.reset_mock()
-        # format dataframe
-        df_feed = get_feed(api, credentials, a_category, a_scope, a_marketplace, feed_format=FORMAT_DATAFRAME)
-        correct_call_params(mock_download_tsv)
-        self.assertTrue(isinstance(df_feed, DataFrame))
-        self.assertEqual(4, len(df_feed.index))
-
-    def test_tsv2df(self):
-        df_feed = _tsv2df(self.tsv_feed)
-        self.assertEqual(51, len(df_feed.columns))
-        self.assertEqual(4, len(df_feed.index))
-        self.assertEqual('PAYPAL', df_feed['AcceptedPaymentMethods'].all())
+        self.assertTrue(all(isinstance(row, str) for row in tsv_feed))
+        self.assertEqual(5, len(tsv_feed))  # includes header
+        first_row = split(r'\t+', tsv_feed[1])
+        self.assertEqual('NEW', first_row[10])
 
     @patch('ebayfeed.downloader._build_req_params', new_callable=PropertyMock)
     @patch('ebayfeed.downloader._download_chunks', new_callable=PropertyMock)

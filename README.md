@@ -5,10 +5,10 @@
 Download item feeds from eBay FeedAPI using Python.
 
 ```python
-from ebayfeed import Api, Credentials, get_feed, FEED_SCOPE_ALL_ACTIVE, MARKETPLACE_US
+import ebayfeed
 
-credentials = Credentials(client_id, client_secret, Api())
-feed = get_feed(api, credentials, category, FEED_SCOPE_ALL_ACTIVE, MARKETPLACE_US)
+credentials = ebayfeed.Credentials(client_id, client_secret)
+feed = ebayfeed.get_feed(credentials, category, ebayfeed.SCOPE_ALL_ACTIVE, ebayfeed.MARKETPLACE_US)
 ```
 
 # References

@@ -2,6 +2,7 @@
 from time import time
 
 from ebayfeed.utils import get_base64_oauth
+from ebayfeed.api import Api
 
 
 class Credentials:
@@ -13,13 +14,14 @@ class Credentials:
     _PARAMS = {'grant_type': 'client_credentials',
                'scope': 'https://api.ebay.com/oauth/api_scope/buy.item.feed'}
 
-    def __init__(self, client_id, client_secret, api):
+    def __init__(self, client_id, client_secret, api=Api()):
         """
         Instantiate a new Credentials object by providing keys from https://developer.ebay.com/my/keys.
 
         Args:
             client_id (str): App-ID (Client-ID) from application keyset.
             client_secret (str): Cert-ID (Client-Secret) from application keyset.
+            api (obj, optional): ebayfeed.Api instance. Default: eBay production API.
         """
         self._b64 = get_base64_oauth(client_id, client_secret)
         self._api = api  #: _api access pt

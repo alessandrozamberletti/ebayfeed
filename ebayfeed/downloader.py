@@ -1,52 +1,40 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from pandas import read_table
-from pandas.compat import StringIO
 
-from ebayfeed.constants import SCOPE_NEWLY_LISTED, FORMAT_TSV, FORMAT_DATAFRAME, MB10
+from ebayfeed.constants import SCOPE_NEWLY_LISTED, MB10
 from ebayfeed.utils import gunzip
+from ebayfeed.api import Api
 
 
 _ROUTE = 'buy/feed/v1_beta/item'
 
 
-def get_feed(api, credentials, category, scope, marketplace, date=None, brange=MB10, feed_format=FORMAT_DATAFRAME):
+def get_feed(credentials, category, scope, marketplace, api=Api(), date=None, brange=MB10):
     """
     Download eBay feed for the given category, scope and marketplace using the provided credentials.
     See: https://developer.ebay.com/_api-docs/buy/feed/resources/item/methods/getItemFeed.
 
     Args:
-        api (obj): An Api object used as entry point to Ebay Feed APIs
         credentials (obj): A Credentials object used to obtain an API access_token
         category (int): An eBay top-level category ID of the items to be returned in the feed file.
         scope (str): Feed type to return. Must be one of [SCOPE_ALL_ACTIVE, SCOPE_NEWLY_LISTED].
         marketplace (str): The ID for the eBay marketplace where the items are hosted.
+        api (obj, optional): ebayfeed.Api instance. Default: eBay production API.
         date (str, optional): Date of the feed file to retrieve. Must be within 3-14 days in the past.
                               Format: yyyyMMdd. Ignored when scope is SCOPE_ALL_ACTIVE.
         brange (int, optional): Number of bytes downloaded at each call to FeedAPI. Must be between 1 and 1e+7.
                                 Default: 1e+7 (MB10).
-        feed_format (str, optional): Output format for the requested feed. Must be one of
-                                     [FORMAT_TSV, FORMAT_DATAFRAME]. Default: FORMAT_TSV.
 
     Returns:
-        str or dataframe: Requested feed in TSV (str) format if feed_format=FORMAT_TSV.
-                          If feed_format=FORMAT_DATAFRAME a pandas dataframe is returned.
+        list: Requested feed in TSV format.
 
     Raises:
         ValueError: If scope is SCOPE_NEWLY_LISTED and date is None.
     """
     if scope == SCOPE_NEWLY_LISTED and date is None:
         raise ValueError('date must be specified when scope is {}'.format(SCOPE_NEWLY_LISTED))
-    tsv_feed = _download_tsv(api, credentials, category, scope, marketplace, date, brange)
-    if feed_format == FORMAT_TSV:
-        return tsv_feed
-    return _tsv2df(tsv_feed)
-
-
-def _tsv2df(tsv_feed):
-    # convert str TSV feed to pandas dataframe
-    tsv_feed = StringIO(tsv_feed)
-    return read_table(tsv_feed)
+    feed_tsv = _download_tsv(api, credentials, category, scope, marketplace, date, brange)
+    return feed_tsv.splitlines()
 
 
 def _download_tsv(api, credentials, category, scope, marketplace, date, brange):
