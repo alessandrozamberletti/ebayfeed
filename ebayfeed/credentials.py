@@ -25,12 +25,15 @@ class Credentials:
             client_id (str): App-ID (Client-ID) from application keyset.
             client_secret (str): Cert-ID (Client-Secret) from application keyset.
             api (obj, optional): ebayfeed.Api instance. Default: eBay production API.
+
+        Attributes:
+            api (obj): ebayfeed.Api instance for which access token was created.
         """
-        self._b64 = get_base64_oauth(client_id, client_secret)
-        self._api = api  #: _api access pt
-        self._req_ts = None  #: timestamp of last access token _api request
-        self._access_token = None  #: _api access_token
-        self._ttl = None  #: access token expiration time in seconds
+        self.api = api
+        self._b64 = get_base64_oauth(client_id, client_secret)  # encoded credentials
+        self._req_ts = None  # timestamp of last access token api request
+        self._access_token = None  # api access_token
+        self._ttl = None  # access token expiration time in seconds
 
     @property
     def access_token(self):
@@ -42,7 +45,7 @@ class Credentials:
             return self._access_token
         headers = {"Authorization": "Basic {}".format(self._b64)}
         self._req_ts = time()
-        rsp = self._api.post(self._OAUTH2_ROUTE, headers, self._PARAMS)
+        rsp = self.api.post(self._OAUTH2_ROUTE, headers, self._PARAMS)
         rsp = rsp.json()
         self._ttl = int(rsp["expires_in"])
         self._access_token = rsp["access_token"]

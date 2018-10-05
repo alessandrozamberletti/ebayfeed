@@ -26,7 +26,7 @@ credentials = ebayfeed.Credentials(client_id, client_secret)
 tsv_feed = ebayfeed.get_feed(credentials, category, ebayfeed.SCOPE_ALL_ACTIVE, ebayfeed.MARKETPLACE_US)
 
 # convert to pandas dataframe
-df_feed = read_table(StringIO(tsv_feed))
+df_feed = read_table(StringIO(tsv_feed.splitlines()))
 ```
 
 # References

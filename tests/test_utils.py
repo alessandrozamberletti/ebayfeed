@@ -7,8 +7,8 @@ from io import BytesIO
 from ebayfeed.constants import (
     ENVIRONMENT_PRODUCTION,
     ENVIRONMENT_SANDBOX,
-    PRODUCTION_API_URI,
-    SANDBOX_API_URI,
+    _PRODUCTION_API_URI,
+    _SANDBOX_API_URI,
 )
 from ebayfeed.utils import gunzip, get_base64_oauth, get_api_uri
 
@@ -35,8 +35,8 @@ class TestBase(TestCase):
         self.assertEqual("dXNlcjprZXk=", get_base64_oauth("user", "key"))
 
     def test_api_uri_is_correct_for_env(self):
-        self.assertEqual(PRODUCTION_API_URI, get_api_uri(ENVIRONMENT_PRODUCTION))
-        self.assertEqual(SANDBOX_API_URI, get_api_uri(ENVIRONMENT_SANDBOX))
+        self.assertEqual(_PRODUCTION_API_URI, get_api_uri(ENVIRONMENT_PRODUCTION))
+        self.assertEqual(_SANDBOX_API_URI, get_api_uri(ENVIRONMENT_SANDBOX))
 
 
 if __name__ == "__main__":

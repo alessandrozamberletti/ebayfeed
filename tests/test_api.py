@@ -6,7 +6,7 @@ from requests.exceptions import HTTPError
 from tests import api, a_uri, some_headers, some_params
 from tests.test_commons import mock_response
 
-from ebayfeed import SANDBOX_API_URI, PRODUCTION_API_URI
+from ebayfeed.constants import _SANDBOX_API_URI, _PRODUCTION_API_URI
 
 
 def _params_are_as_expected(mock):
@@ -19,8 +19,8 @@ class TestApi(TestCase):
         def is_alive(uri):
             return get(uri).ok
 
-        self.assertTrue(is_alive(SANDBOX_API_URI))
-        self.assertTrue(is_alive(PRODUCTION_API_URI))
+        self.assertTrue(is_alive(_SANDBOX_API_URI))
+        self.assertTrue(is_alive(_PRODUCTION_API_URI))
 
     @patch("ebayfeed.api.get")
     @patch("ebayfeed.api.post")

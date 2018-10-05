@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 
-from ebayfeed.constants import SCOPE_NEWLY_LISTED, MB10
+from ebayfeed.constants import SCOPE_NEWLY_LISTED, _10MB
 from ebayfeed.utils import gunzip
-from ebayfeed.api import Api
 
 
 _ROUTE = "buy/feed/v1_beta/item"
 
 
 def get_feed(
-    credentials, category, scope, marketplace, api=Api(), date=None, brange=MB10
+    credentials, category, scope, marketplace, api=None, date=None, brange=_10MB
 ):
     """
     Download eBay feed for the given category, scope and marketplace using the provided credentials.
@@ -21,14 +20,14 @@ def get_feed(
         category (int): An eBay top-level category ID of the items to be returned in the feed file.
         scope (str): Feed type to return. Must be one of [SCOPE_ALL_ACTIVE, SCOPE_NEWLY_LISTED].
         marketplace (str): The ID for the eBay marketplace where the items are hosted.
-        api (obj, optional): ebayfeed.Api instance. Default: eBay production API.
+        api (obj, optional): ebayfeed.Api instance. Default: use the same API used by credentials obj.
         date (str, optional): Date of the feed file to retrieve. Must be within 3-14 days in the past.
                               Format: yyyyMMdd. Ignored when scope is SCOPE_ALL_ACTIVE.
         brange (int, optional): Number of bytes downloaded at each call to FeedAPI. Must be between 1 and 1e+7.
-                                Default: 1e+7 (MB10).
+                                Default: 1e+7 (_10MB).
 
     Returns:
-        list: Requested feed in TSV format.
+        str: Requested feed in TSV format.
 
     Raises:
         ValueError: If scope is SCOPE_NEWLY_LISTED and date is None.
@@ -37,10 +36,13 @@ def get_feed(
         raise ValueError(
             "date must be specified when scope is {}".format(SCOPE_NEWLY_LISTED)
         )
+    # use credentials api if none was passed
+    if api is None:
+        api = credentials.api
     feed_tsv = _download_tsv(
         api, credentials, category, scope, marketplace, date, brange
     )
-    return feed_tsv.splitlines()
+    return feed_tsv
 
 
 def _download_tsv(api, credentials, category, scope, marketplace, date, brange):

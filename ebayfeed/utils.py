@@ -3,7 +3,7 @@ from gzip import GzipFile
 from io import BytesIO
 from base64 import b64encode
 
-from ebayfeed.constants import ENVIRONMENT_TO_API_DICT
+from ebayfeed.constants import _ENVIRONMENT_TO_API_DICT
 
 
 def gunzip(byte_str_gz):
@@ -54,6 +54,6 @@ def get_api_uri(env):
                    Default: EBAY_PRODUCTION.
 
     Returns:
-        str: PRODUCTION_API_URI or SANDBOX_API_URI.
+        str: _PRODUCTION_API_URI or _SANDBOX_API_URI.
     """
-    return ENVIRONMENT_TO_API_DICT[env]
+    return _ENVIRONMENT_TO_API_DICT[env]
