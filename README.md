@@ -1,4 +1,4 @@
-# ebay-feedsdk-py
+# ebayfeed
 
 [![Build Status](https://travis-ci.org/alessandrozamberletti/ebay-feedsdk-py.svg?branch=master)](https://travis-ci.org/alessandrozamberletti/ebay-feedsdk-py)
 [![codecov](https://codecov.io/gh/alessandrozamberletti/ebay-feedsdk-py/branch/master/graph/badge.svg)](https://codecov.io/gh/alessandrozamberletti/ebay-feedsdk-py)
