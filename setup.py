@@ -8,7 +8,7 @@ setuptools.setup(
     version='2018.10.01',
     author='alez',
     author_email='alez.pypi@gmail.com',
-    url='https://github.com/alessandrozamberletti/ebay-feedsdk-py',
+    url='https://github.com/alessandrozamberletti/ebayfeed',
     description='Download item feeds from eBay RESTful APIs.',
     long_description=long_description,
     long_description_content_type='text/markdown',
