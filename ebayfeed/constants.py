@@ -4,9 +4,9 @@ ENVIRONMENT_PRODUCTION = "production"
 ENVIRONMENT_SANDBOX = "sandbox"
 
 # currently available marketplaces
-MARKETPLACE_US = "EBAY-US"
-MARKETPLACE_GB = "EBAY-GB"
-MARKETPLACE_DE = "EBAY-DE"
+EBAY_US = "EBAY-US"
+EBAY_GB = "EBAY-GB"
+EBAY_DE = "EBAY-DE"
 
 # feed scopes:
 # - all_active = all items (new, buy now, trusted)

@@ -4,7 +4,15 @@
 [![codecov](https://codecov.io/gh/alessandrozamberletti/ebay-feedsdk-py/branch/master/graph/badge.svg)](https://codecov.io/gh/alessandrozamberletti/ebay-feedsdk-py)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-Download item feeds from eBay using Python.
+Download item feeds from the new eBay RESTful APIs.
+
+**NOTE:** As of Oct.2018 Feed API is supported only on:
+* EBAY-DE - eBay Germany (ebay.de)
+* EBAY-GB - eBay Great Britain (ebay.co.uk)
+* EBAY-US - eBay USA (ebay.com)
+
+Package will be updated as soon as other marketplaces are added.
+More info [here](https://developer.ebay.com/api-docs/buy/feed/overview.html#API).
 
 # Installation
 To install, use `pip` or `easy_install`:
@@ -27,7 +35,7 @@ from pandas.compat import StringIO
 
 # download tsv feed
 credentials = ebayfeed.Credentials(client_id, client_secret)
-feed = ebayfeed.get_feed(credentials, 3252, ebayfeed.SCOPE_ALL_ACTIVE, ebayfeed.MARKETPLACE_US)
+feed = ebayfeed.get_feed(credentials, 3252, ebayfeed.SCOPE_ALL_ACTIVE, ebayfeed.EBAY_US)
 
 # convert to dataframe
 df = read_table(StringIO(tsv_feed.splitlines()))
@@ -39,7 +47,7 @@ import ebayfeed
 
 # download tsv feed
 credentials = ebayfeed.Credentials(client_id, client_secret)
-feed = ebayfeed.get_feed(credentials, 220, ebayfeed.SCOPE_NEWLY_LISTED, ebayfeed.MARKETPLACE_DE, date='20181003')
+feed = ebayfeed.get_feed(credentials, 220, ebayfeed.SCOPE_NEWLY_LISTED, ebayfeed.EBAY_US, date='20181003')
 ```
 
 Get OAuth 2.0 access token for buy.item.feed scope (cached until expiration):
@@ -50,7 +58,7 @@ credentials = ebayfeed.Credentials(client_id, client_secret)
 access_token = credentials.access_token
 ```
 
-Use eBay sandbox APIs:
+Connect to eBay sandbox APIs:
 ```python
 import ebayfeed
 

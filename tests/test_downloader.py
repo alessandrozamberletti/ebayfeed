@@ -17,7 +17,7 @@ from re import split
 from ebayfeed.constants import (
     SCOPE_NEWLY_LISTED,
     SCOPE_ALL_ACTIVE,
-    MARKETPLACE_US,
+    EBAY_US,
     _10MB,
 )
 from ebayfeed.downloader import (
@@ -44,7 +44,7 @@ class TestDownloader(TestCase):
     def test_raise_for_newly_listed_without_date(self):
         with self.assertRaises(ValueError):
             get_feed(
-                credentials, a_category, SCOPE_NEWLY_LISTED, a_marketplace, api=api
+                credentials, a_category, SCOPE_NEWLY_LISTED, a_marketplace
             )
 
     @patch("ebayfeed.Credentials.access_token", new_callable=PropertyMock)
@@ -120,7 +120,7 @@ class TestDownloader(TestCase):
         self.assertEqual(
             {
                 "Authorization": "Bearer {}".format(a_token),
-                "X-EBAY-C-MARKETPLACE-ID": MARKETPLACE_US,
+                "X-EBAY-C-MARKETPLACE-ID": EBAY_US,
             },
             headers,
         )
@@ -147,7 +147,7 @@ class TestDownloader(TestCase):
             )
 
         mock_download_tsv.return_value = self.tsv_feed
-        tsv_feed = get_feed(credentials, a_category, a_scope, a_marketplace, api=api)
+        tsv_feed = get_feed(credentials, a_category, a_scope, a_marketplace)
         tsv_feed = tsv_feed.splitlines()
         correct_call_params(mock_download_tsv)
         self.assertTrue(all(isinstance(row, str) for row in tsv_feed))

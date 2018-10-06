@@ -4,12 +4,12 @@ with open('README.md', 'r') as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='ebayfeed67',
-    version='2018.1067',
-    author='AleZ',
-    author_email='alessandro.zamberletti@gmail.com',
+    name='ebayfeed',
+    version='2018.10.01',
+    author='alez',
+    author_email='alez.pypi@gmail.com',
     url='https://github.com/alessandrozamberletti/ebay-feedsdk-py',
-    description='Download item feeds from eBay using Python.',
+    description='Download item feeds from eBay RESTful APIs.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     license='MIT',
@@ -33,4 +33,6 @@ setuptools.setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Utilities'
     ],
+    keywords='ebayfeed ebay-api ebay-rest-api ebay-oauth',
+    zip_safe=True
 )
