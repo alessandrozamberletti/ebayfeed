@@ -42,7 +42,7 @@ credentials = ebayfeed.Credentials(client_id, client_secret)
 feed = ebayfeed.get_feed(credentials, 220, ebayfeed.SCOPE_NEWLY_LISTED, ebayfeed.MARKETPLACE_DE, date='20181003')
 ```
 
-Get OAuth 2.0 access token to buy.item.feed scope (cached until expiration):
+Get OAuth 2.0 access token for buy.item.feed scope (cached until expiration):
 ```python
 import ebayfeed
 
@@ -50,14 +50,12 @@ credentials = ebayfeed.Credentials(client_id, client_secret)
 access_token = credentials.access_token
 ```
 
-Connect to eBay sandbox APIs:
+Use eBay sandbox APIs:
 ```python
 import ebayfeed
 
 sandbox_api = ebayfeed.Api(env=ebayfeed.ENVIRONMENT_SANDBOX)
-
 credentials = ebayfeed.Credentials(client_id, client_secret, api=sandbox_api)
-feed = ebayfeed.get_feed(credentials, 3252, ebayfeed.SCOPE_ALL_ACTIVE, ebayfeed.MARKETPLACE_US)
 ```
 
 # References
