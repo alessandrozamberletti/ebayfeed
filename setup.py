@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='ebayfeed',
-    version='2018.10.01',
+    version='2018.10.03',
     author='alez',
     author_email='alez.pypi@gmail.com',
     url='https://github.com/alessandrozamberletti/ebayfeed',

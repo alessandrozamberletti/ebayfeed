@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/alessandrozamberletti/ebayfeed.svg?branch=master)](https://travis-ci.org/alessandrozamberletti/ebayfeed)
 [![codecov](https://codecov.io/gh/alessandrozamberletti/ebayfeed/branch/master/graph/badge.svg)](https://codecov.io/gh/alessandrozamberletti/ebayfeed)
+[![PyPI version](https://badge.fury.io/py/ebayfeed.svg)](https://badge.fury.io/py/ebayfeed)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 Download item feeds from the new eBay RESTful APIs.

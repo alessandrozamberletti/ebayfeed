@@ -8,9 +8,7 @@ from ebayfeed.utils import gunzip
 _ROUTE = "buy/feed/v1_beta/item"
 
 
-def get_feed(
-    credentials, category, scope, marketplace, date=None, brange=_10MB
-):
+def get_feed(credentials, category, scope, marketplace, date=None, brange=_10MB):
     """
     Download eBay feed for the given category, scope and marketplace using the provided credentials.
     See: https://developer.ebay.com/_api-docs/buy/feed/resources/item/methods/getItemFeed.
