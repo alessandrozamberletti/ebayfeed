@@ -14,12 +14,7 @@ from tests import (
 )
 from re import split
 
-from ebayfeed.constants import (
-    SCOPE_NEWLY_LISTED,
-    SCOPE_ALL_ACTIVE,
-    EBAY_US,
-    _10MB,
-)
+from ebayfeed.constants import SCOPE_NEWLY_LISTED, SCOPE_ALL_ACTIVE, EBAY_US, _10MB
 from ebayfeed.downloader import (
     get_feed,
     _download_tsv,
@@ -43,9 +38,7 @@ class TestDownloader(TestCase):
 
     def test_raise_for_newly_listed_without_date(self):
         with self.assertRaises(ValueError):
-            get_feed(
-                credentials, a_category, SCOPE_NEWLY_LISTED, a_marketplace
-            )
+            get_feed(credentials, a_category, SCOPE_NEWLY_LISTED, a_marketplace)
 
     @patch("ebayfeed.Credentials.access_token", new_callable=PropertyMock)
     def test_req_headers_and_params_are_ok(self, mock_access_token):
