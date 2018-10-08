@@ -1,0 +1,36 @@
+{
+  "categoryTreeId": "0",
+  "categoryTreeVersion": "117",
+  "rootCategoryNode": {
+    "category": {
+      "categoryId": "0",
+      "categoryName": "Root"
+    },
+    "childCategoryTreeNodes": [
+      {
+      "category": {
+            "categoryId": "1",
+            "categoryName": "first"
+          },
+          "parentCategoryTreeNodeHref": "https://api.ebay.com/commerce/...",
+          "childCategoryTreeNodes": []
+        },
+        {
+          "category": {
+            "categoryId": "2",
+            "categoryName": "second"
+          },
+          "parentCategoryTreeNodeHref": "https://api.ebay.com/commerce/...",
+          "childCategoryTreeNodes": []
+        },
+        {
+          "category": {
+            "categoryId": "3",
+            "categoryName": "third"
+          },
+          "parentCategoryTreeNodeHref": "https://api.ebay.com/commerce/...",
+          "childCategoryTreeNodes": []
+        }
+      ]
+      }
+    }

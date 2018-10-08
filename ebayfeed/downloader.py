@@ -14,7 +14,7 @@ def get_feed(credentials, category, scope, marketplace, date=None, brange=_10MB)
     See: https://developer.ebay.com/_api-docs/buy/feed/resources/item/methods/getItemFeed.
 
     Args:
-        credentials (obj): A Credentials object used to obtain an API access_token
+        credentials (obj): A ebayfeed.Credentials object used to obtain an API access_token.
         category (int): An eBay top-level category ID of the items to be returned in the feed file.
         scope (str): Feed type to return. Must be one of [SCOPE_ALL_ACTIVE, SCOPE_NEWLY_LISTED].
         marketplace (str): The ID for the eBay marketplace where the items are hosted.
