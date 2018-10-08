@@ -38,4 +38,6 @@ def _get_cat_tree(api, tree_id, headers):
 
 def _tree2dict(tree):
     # build a {'category_name': 'category_id'} dict of top-level categories
-    return {el["category"]["categoryName"]: int(el["category"]["categoryId"]) for el in tree}
+    return {
+        el["category"]["categoryName"]: int(el["category"]["categoryId"]) for el in tree
+    }
