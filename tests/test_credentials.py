@@ -27,7 +27,7 @@ class TestCredentials(TestCase):
         }
         expected_params = {
             "grant_type": "client_credentials",
-            "scope": "https://api.ebay.com/oauth/api_scope/buy.item.feed",
+            "scope": "https://api.ebay.com/oauth/api_scope https://api.ebay.com/oauth/api_scope/buy.item.feed",
         }
         mock_request.assert_called_once_with(
             expected_uri, headers=expected_headers, params=expected_params

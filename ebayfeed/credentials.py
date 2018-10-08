@@ -7,14 +7,17 @@ from ebayfeed.api import Api
 
 class Credentials:
     """
-    Grant access_token to Ebay sandbox and production FeedAPI by following the client credentials grant flow.
+    Create access tokens to eBay RESTful APIs using Client credentials grant flow.
     See: https://developer.ebay.com/_api-docs/static/oauth-client-_credentials-grant.html
+    Also: https://developer.ebay.com/events/connect17/sj/2-6_breakout_api-best-practices_tanya-vlahovic.pdf
     """
 
     _OAUTH2_ROUTE = "identity/v1/oauth2/token"
+
+    # taxonomy and buyItemFeed scopes. See: https://developer.ebay.com/api-docs/static/oauth-details.html
     _PARAMS = {
         "grant_type": "client_credentials",
-        "scope": "https://api.ebay.com/oauth/api_scope/buy.item.feed",
+        "scope": "https://api.ebay.com/oauth/api_scope https://api.ebay.com/oauth/api_scope/buy.item.feed",
     }
 
     def __init__(self, client_id, client_secret, api=Api()):
@@ -27,7 +30,7 @@ class Credentials:
             api (obj, optional): ebayfeed.Api instance. Default: eBay production API.
 
         Attributes:
-            api (obj): ebayfeed.Api instance for which access token was created.
+            api (obj): ebayfeed.Api instance for which the access token needs to be created (sandbox or production).
         """
         self.api = api
         self._b64 = get_base64_oauth(client_id, client_secret)  # encoded credentials
@@ -38,7 +41,7 @@ class Credentials:
     @property
     def access_token(self):
         """
-        str: OAuth access token to eBay FeedAPI (scope: https://_api.ebay.com/oauth/api_scope/buy.item.feed).
+        str: access token to eBay Taxonomy and buyItemFeed OAuth scopes.
              The token is cached until it expires or invalidate_cache() method is called.
         """
         if self._access_token and time() < self._req_ts + self._ttl:
@@ -53,7 +56,6 @@ class Credentials:
 
     def invalidate_cache(self):
         """
-        Invalidate cache. The next request to access_token property will query Ebay FeedAPI to generate a new
-        access token.
+        Invalidate cache. The next request to access_token property will query eBay to generate a new access token.
         """
         self._access_token = None
