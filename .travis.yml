@@ -20,3 +20,7 @@ script:
   - pytest --cov=ebayfeed
 after_success:
   - codecov
+deploy:
+  provider: pypi
+  user: ${PYPI_USER}
+  password: ${PYPI_PWD}
