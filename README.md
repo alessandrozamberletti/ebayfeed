@@ -49,7 +49,7 @@ feed = ebayfeed.get_feed(credentials, 220, ebayfeed.SCOPE_NEWLY_LISTED, ebayfeed
 
 Get top-level category names and IDs for a given marketplace from Taxonomy API:
 ```python
-categories = ebayfeed.get_top_categories(credentials, ebayfeed.EBAY_DE)
+categories = ebayfeed.get_macro_categories(credentials, ebayfeed.EBAY_DE)
 ```
 
 Get access token to taxonomy and buy.item.feed OAuth scopes (cached until expiration):

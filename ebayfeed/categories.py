@@ -3,7 +3,7 @@ _CAT_TREE_ID_ROUTE = "commerce/taxonomy/v1_beta/get_default_category_tree_id"
 _CAT_TREE_ROUTE = "commerce/taxonomy/v1_beta/category_tree"
 
 
-def get_top_categories(credentials, marketplace):
+def get_macro_categories(credentials, marketplace):
     """
     Retrieve top-level category names and IDs for the given eBay marketplace.
     See: https://developer.ebay.com/api-docs/commerce/taxonomy/static/overview.html.

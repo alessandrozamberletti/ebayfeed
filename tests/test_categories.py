@@ -7,7 +7,7 @@ from tests.test_constants import some_headers, some_params, a_marketplace, a_tok
 from json import load
 
 from ebayfeed.categories import (
-    get_top_categories,
+    get_macro_categories,
     _tree2dict,
     _get_cat_tree_id,
     _get_cat_tree,
@@ -54,7 +54,7 @@ class TestCredentials(TestCase):
     @patch("ebayfeed.Credentials.access_token", new_callable=PropertyMock)
     @patch("ebayfeed.categories._get_cat_tree_id")
     @patch("ebayfeed.categories._get_cat_tree")
-    def test_get_top_categories(
+    def test_get_macro_categories(
         self, mock_get_cat_tree, mock_get_cat_tree_id, mock_access_token
     ):
         mock_get_cat_tree.return_value = self.cats_tree["rootCategoryNode"][
@@ -64,7 +64,7 @@ class TestCredentials(TestCase):
         mock_access_token.return_value = a_token
         expected_headers = {"Authorization": "Bearer {}".format(a_token)}
         expected_params = {"marketplace_id": a_marketplace}
-        top_categories = get_top_categories(credentials, a_marketplace)
+        top_categories = get_macro_categories(credentials, a_marketplace)
         self.assertEqual({"first": 1, "second": 2, "third": 3}, top_categories)
         mock_access_token.assert_called_once()
         mock_get_cat_tree_id.assert_called_once_with(
