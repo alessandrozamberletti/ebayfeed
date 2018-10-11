@@ -30,7 +30,7 @@ $ easy_install --upgrade ebayfeed
 
 Sign in to your [eBay Developers Program account](https://developer.ebay.com) to create an App ID and a keyset.
 
-**You can test your application in eBay's sandbox environment without any limitations.**
+**You can test your application in eBay's sandbox environment without limitations.**
 
 To download item feeds from eBay's production environment, your keyset needs to be granted access to https://api.ebay.com/oauth/api_scope/buy.product.feed OAuth scope. 
 
