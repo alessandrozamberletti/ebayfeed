@@ -26,6 +26,16 @@ or
 $ easy_install --upgrade ebayfeed
 ```
 
+# How to create a keyset
+
+Sign in to your [eBay Developers Program account](https://developer.ebay.com) to create an App ID and a keyset.
+
+**You can test your application in eBay's sandbox environment without any limitations.**
+
+To download item feeds from eBay's production environment, your keyset needs to be granted access to https://api.ebay.com/oauth/api_scope/buy.product.feed OAuth scope. 
+
+You can obtain such authorization by completing all the steps described here: [apply for production access](https://developer.ebay.com/api-docs/buy/static/buy-requirements.html#Applying)
+
 # Examples
 
 Get all items for ```{'Travel': 3252}``` category and convert them to pandas dataframe:
@@ -40,6 +50,12 @@ feed = ebayfeed.get_feed(credentials, 3252, ebayfeed.SCOPE_ALL_ACTIVE, ebayfeed.
 
 # convert to dataframe
 df = read_table(StringIO(tsv_feed.splitlines()))
+```
+
+Use eBay's sandbox environment instead of production:
+```python
+sandbox_api = ebayfeed.Api(env=ebayfeed.ENVIRONMENT_SANDBOX)
+credentials = ebayfeed.Credentials(client_id, client_secret, api=sandbox_api)
 ```
 
 Get items listed on 2018-10-03 for ```{'Toys & Hobbies': 220}``` category:
@@ -57,12 +73,8 @@ Get access token to taxonomy and buy.item.feed OAuth scopes (cached until expira
 access_token = credentials.access_token
 ```
 
-Use eBay sandbox environment:
-```python
-sandbox_api = ebayfeed.Api(env=ebayfeed.ENVIRONMENT_SANDBOX)
-credentials = ebayfeed.Credentials(client_id, client_secret, api=sandbox_api)
-```
-
 # References
-* eBay API documentation: https://developer.ebay.com/api-docs/buy/feed/resources/item/methods/getItemFeed
-* eBay categories map: https://www.isoldwhat.com/
+
+* Feed API documentation: https://developer.ebay.com/api-docs/buy/feed/static/overview.html
+* Best practices: https://developer.ebay.com/events/connect17/sj/2-6_breakout_api-best-practices_tanya-vlahovic.pdf
+* Categories map: https://www.isoldwhat.com/
