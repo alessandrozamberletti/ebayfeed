@@ -14,12 +14,12 @@ def get_feed(credentials, category, scope, marketplace, date=None, brange=_10MB)
     See: https://developer.ebay.com/_api-docs/buy/feed/resources/item/methods/getItemFeed.
 
     Args:
-        credentials (obj): A ebayfeed.Credentials object used to obtain an API access_token.
+        credentials (obj): An ebayfeed.Credentials object used to obtain an API access_token.
         category (int): An eBay top-level category ID of the items to be returned in the feed file.
-        scope (str): Feed type to return. Must be one of [SCOPE_ALL_ACTIVE, SCOPE_NEWLY_LISTED].
-        marketplace (str): The ID for the eBay marketplace where the items are hosted.
+        scope (str): Feed type to return. Must be one of [ebayfeed.SCOPE_ALL_ACTIVE, ebayfeed.SCOPE_NEWLY_LISTED].
+        marketplace (str): ID of the eBay marketplace where the items are hosted.
         date (str, optional): Date of the feed file to retrieve. Must be within 3-14 days in the past.
-                              Format: yyyyMMdd. Ignored when scope is SCOPE_ALL_ACTIVE.
+                              Format: yyyyMMdd. Ignored when scope is ebayfeed.SCOPE_ALL_ACTIVE.
         brange (int, optional): Number of bytes downloaded at each call to FeedAPI. Must be between 1 and 1e+7.
                                 Default: 1e+7 (_10MB).
 
@@ -27,7 +27,7 @@ def get_feed(credentials, category, scope, marketplace, date=None, brange=_10MB)
         str: Requested feed in TSV format.
 
     Raises:
-        ValueError: If scope is SCOPE_NEWLY_LISTED and date is None.
+        ValueError: If scope is ebayfeed.SCOPE_NEWLY_LISTED and date is None.
     """
     if scope == SCOPE_NEWLY_LISTED and date is None:
         raise ValueError(

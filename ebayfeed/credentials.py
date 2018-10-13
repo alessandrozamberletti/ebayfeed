@@ -7,7 +7,7 @@ from ebayfeed.api import Api
 
 class Credentials:
     """
-    Create access tokens to eBay RESTful APIs using Client credentials grant flow.
+    Create access tokens to eBay RESTful API using Client credentials grant flow.
     See: https://developer.ebay.com/_api-docs/static/oauth-client-_credentials-grant.html
     Also: https://developer.ebay.com/events/connect17/sj/2-6_breakout_api-best-practices_tanya-vlahovic.pdf
     """

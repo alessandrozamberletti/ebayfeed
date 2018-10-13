@@ -3,7 +3,7 @@
 ENVIRONMENT_PRODUCTION = "production"
 ENVIRONMENT_SANDBOX = "sandbox"
 
-# currently available marketplaces
+# feed-enabled marketplaces
 EBAY_US = "EBAY-US"
 EBAY_GB = "EBAY-GB"
 EBAY_DE = "EBAY-DE"

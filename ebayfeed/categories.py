@@ -9,11 +9,11 @@ def get_macro_categories(credentials, marketplace):
     See: https://developer.ebay.com/api-docs/commerce/taxonomy/static/overview.html.
 
     Args:
-        credentials (obj): A ebayfeed.Credentials object used to obtain an API access_token.
+        credentials (obj): An ebayfeed.Credentials object used to obtain an API access_token.
         marketplace (str): The ID of the eBay marketplace for which to retrieve the desired top-level categories.
 
     Returns:
-        dict: Keys are category names, values are category IDs.
+        dict: {'category_name': 'category_id'} dictionary of top-level categories.
     """
     headers = {"Authorization": "Bearer {}".format(credentials.access_token)}
     params = {"marketplace_id": marketplace}
@@ -32,6 +32,7 @@ def _get_cat_tree_id(api, headers, params):
 
 def _get_cat_tree(api, tree_id, headers):
     # see: https://developer.ebay.com/api-docs/buy/static/buy-categories.html
+    # NOTE: {'accept-encoding': 'application/gzip'} is already set as default by requests
     tree = api.get("{}/{}".format(_CAT_TREE_ROUTE, tree_id), headers=headers)
     return tree.json()["rootCategoryNode"]["childCategoryTreeNodes"]
 

@@ -15,10 +15,10 @@ def gunzip(byte_str_gz):
         byte_str_gz (str): Gzipped byte string.
 
     Returns:
-        str: decompressed string.
+        str: Decompressed string.
 
     Raises:
-        IOError: when input is not a gzipped str.
+        IOError: When input is not a gzipped str.
     """
     bstream = BytesIO()
     bstream.write(byte_str_gz)
@@ -50,8 +50,8 @@ def get_api_uri(env):
     Retrieve eBay FeedAPI endpoints based on chosen environment.
 
     Args:
-        env (str): eBay environment. Must be one of [ENVIRONMENT_PRODUCTION, ENVIRONMENT_SANDBOX].
-                   Default: EBAY_PRODUCTION.
+        env (str): eBay environment. Must be one of [ebayfeed.EBAY_PRODUCTION, ebayfeed.EBAY_SANDBOX].
+                   Default: ebayfeed.EBAY_PRODUCTION.
 
     Returns:
         str: _PRODUCTION_API_URI or _SANDBOX_API_URI.

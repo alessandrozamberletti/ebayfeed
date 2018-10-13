@@ -7,16 +7,16 @@ from ebayfeed.utils import get_api_uri
 
 class Api:
     """
-    eBay FeedAPI wrapper.
+    eBay API wrapper.
     """
 
     def __init__(self, env=ENVIRONMENT_PRODUCTION):
         """
-        Create an API object for the given environment.
+        Create an Api object for the given environment.
 
         Args:
-            env (str, optional): eBay environment. Must be one of [ENVIRONMENT_PRODUCTION, ENVIRONMENT_SANDBOX].
-                                 Default: EBAY_PRODUCTION.
+            env (str, optional): eBay environment. Must be one of [ebayfeed.EBAY_PRODUCTION, ebayfeed.EBAY_SANDBOX].
+                                 Default: ebayfeed.EBAY_PRODUCTION.
         """
         self.uri = get_api_uri(env)  #: eBay API uri
 
