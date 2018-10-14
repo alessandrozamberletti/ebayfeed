@@ -1,6 +1,7 @@
 # ebayfeed
 
 [![Build Status](https://travis-ci.org/alessandrozamberletti/ebayfeed.svg?branch=master)](https://travis-ci.org/alessandrozamberletti/ebayfeed)
+[![Build status](https://ci.appveyor.com/api/projects/status/ksrptpthfj88pxl7/branch/master?svg=true)](https://ci.appveyor.com/project/alessandrozamberletti/ebay-feedsdk-py/branch/master)
 [![codecov](https://codecov.io/gh/alessandrozamberletti/ebayfeed/branch/master/graph/badge.svg)](https://codecov.io/gh/alessandrozamberletti/ebayfeed)
 [![PyPI version](https://badge.fury.io/py/ebayfeed.svg)](https://badge.fury.io/py/ebayfeed)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
