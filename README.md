@@ -8,7 +8,7 @@
 
 Download item feeds from eBay RESTful API.
 
-**NOTE:** As of Oct.2018 Feed API (v1_beta.9.0) are available only for the following marketplaces:
+**NOTE:** As of Oct.2018 Feed API ([v1_beta.9.0](https://developer.ebay.com/api-docs/buy/feed/release-notes.html#v1_beta.9.0)) are available only for the following marketplaces:
 * EBAY-DE - eBay Germany (ebay.de)
 * EBAY-GB - eBay Great Britain (ebay.co.uk)
 * EBAY-US - eBay USA (ebay.com)
