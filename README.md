@@ -8,13 +8,15 @@
 
 Download item feeds from eBay RESTful API.
 
-**NOTE:** As of Oct.2018 Feed API are available only for the following marketplaces:
+**NOTE:** As of Oct.2018 Feed API ([v1_beta.9.0](https://developer.ebay.com/api-docs/buy/feed/release-notes.html#v1_beta.9.0)) are available only for the following marketplaces:
 * EBAY-DE - eBay Germany (ebay.de)
 * EBAY-GB - eBay Great Britain (ebay.co.uk)
 * EBAY-US - eBay USA (ebay.com)
 
 Package will be updated as soon as [other](https://developer.ebay.com/api-docs/static/rest-request-components.html#Marketpl) marketplaces are added.
 More info [here](https://developer.ebay.com/api-docs/buy/feed/overview.html#API).
+
+[Feed API release notes](https://developer.ebay.com/api-docs/buy/feed/release-notes.html)
 
 # Installation
 To install, use `pip` or `easy_install`:
