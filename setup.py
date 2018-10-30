@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='ebayfeed',
-    version='2018.10.8',
+    version='2018.10.9',
     author='alez',
     author_email='alez.pypi@gmail.com',
     url='https://github.com/alessandrozamberletti/ebayfeed',
@@ -25,7 +25,6 @@ setuptools.setup(
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
@@ -33,6 +32,6 @@ setuptools.setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Utilities'
     ],
-    keywords='ebayfeed ebay-api ebay-rest-api ebay-oauth',
+    keywords='ebayfeed ebay-item-feed ebay-api ebay-rest-api ebay-oauth',
     zip_safe=True
 )
