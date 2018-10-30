@@ -1,5 +1,5 @@
-codecov==2.0.15
-mock==2.0.0
-pytest==3.8.1
-pytest-cov==2.6.0
-requests==2.19.1
+codecov
+mock
+pytest
+pytest-cov
+requests
