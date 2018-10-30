@@ -73,6 +73,7 @@ categories = ebayfeed.get_macro_categories(credentials, ebayfeed.EBAY_DE)
 
 Get access token to taxonomy and buy.item.feed OAuth scopes (cached until expiration):
 ```python
+credentials = ebayfeed.Credentials(client_id, client_secret)
 access_token = credentials.access_token
 ```
 
