@@ -82,4 +82,3 @@ access_token = credentials.access_token
 
 * FeedAPI documentation: https://developer.ebay.com/api-docs/buy/feed/static/overview.html
 * Best practices: https://developer.ebay.com/events/connect17/sj/2-6_breakout_api-best-practices_tanya-vlahovic.pdf
-* eBay categories tree: https://www.isoldwhat.com/
