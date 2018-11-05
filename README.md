@@ -4,11 +4,12 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/ksrptpthfj88pxl7/branch/master?svg=true)](https://ci.appveyor.com/project/alessandrozamberletti/ebay-feedsdk-py/branch/master)
 [![codecov](https://codecov.io/gh/alessandrozamberletti/ebayfeed/branch/master/graph/badge.svg)](https://codecov.io/gh/alessandrozamberletti/ebayfeed)
 [![PyPI version](https://badge.fury.io/py/ebayfeed.svg)](https://badge.fury.io/py/ebayfeed)
+[![Downloads](https://pepy.tech/badge/ebayfeed)](https://pepy.tech/project/ebayfeed)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 Download item feeds from eBay RESTful API.
 
-**NOTE:** As of Oct.2018 Feed API ([v1_beta.9.0](https://developer.ebay.com/api-docs/buy/feed/release-notes.html#v1_beta.9.0)) are available only for the following marketplaces:
+**NOTE:** As of Nov.2018 Feed API ([v1_beta.10.0](https://developer.ebay.com/api-docs/buy/feed/release-notes.html#v1_beta.10.0)) are available only for the following marketplaces:
 * EBAY-DE - eBay Germany (ebay.de)
 * EBAY-GB - eBay Great Britain (ebay.co.uk)
 * EBAY-US - eBay USA (ebay.com)
@@ -37,7 +38,7 @@ Sign in to your [eBay Developers Program account](https://developer.ebay.com) to
 
 To download item feeds from eBay's production environment, your keyset needs to be granted access to https://api.ebay.com/oauth/api_scope/buy.product.feed OAuth scope. 
 
-You can obtain such authorization by completing all the steps described here: [apply for production access](https://developer.ebay.com/api-docs/buy/static/buy-requirements.html#Applying)
+You can obtain such authorization by completing all the steps described here: [apply for production access](https://developer.ebay.com/api-docs/buy/static/buy-requirements.html#Applying).
 
 # Examples
 
@@ -79,6 +80,6 @@ access_token = credentials.access_token
 
 # References
 
-* Feed API documentation: https://developer.ebay.com/api-docs/buy/feed/static/overview.html
+* FeedAPI documentation: https://developer.ebay.com/api-docs/buy/feed/static/overview.html
 * Best practices: https://developer.ebay.com/events/connect17/sj/2-6_breakout_api-best-practices_tanya-vlahovic.pdf
-* Categories map: https://www.isoldwhat.com/
+* eBay categories tree: https://www.isoldwhat.com/
