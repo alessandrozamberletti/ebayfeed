@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 
-from ebayfeed.constants import SCOPE_NEWLY_LISTED, _10MB
+from ebayfeed.constants import SCOPE_NEWLY_LISTED, _1MB
 from ebayfeed.utils import gunzip
 
 
 _ROUTE = "buy/feed/v1_beta/item"
 
 
-def get_feed(credentials, category, scope, marketplace, date=None, brange=_10MB):
+def get_feed(credentials, category, scope, marketplace, date=None, brange=_1MB):
     """
     Download eBay feed for the given category, scope and marketplace using the provided credentials.
     See: https://developer.ebay.com/_api-docs/buy/feed/resources/item/methods/getItemFeed.
@@ -20,8 +20,8 @@ def get_feed(credentials, category, scope, marketplace, date=None, brange=_10MB)
         marketplace (str): ID of the eBay marketplace where the items are hosted.
         date (str, optional): Date of the feed file to retrieve. Must be within 3-14 days in the past.
                               Format: yyyyMMdd. Ignored when scope is ebayfeed.SCOPE_ALL_ACTIVE.
-        brange (int, optional): Number of bytes downloaded at each call to FeedAPI. Must be between 1 and 1e+7.
-                                Default: 1e+7 (_10MB).
+        brange (int, optional): Number of bytes downloaded at each call to FeedAPI. Must be between 1 and 10485760.
+                                Default: 1e+6 (_1MB).
 
     Returns:
         str: Requested feed in TSV format.
