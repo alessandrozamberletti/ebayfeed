@@ -1,5 +1,5 @@
 codecov
 mock
-pytest
+pytest < 2.6
 pytest-cov
 requests
