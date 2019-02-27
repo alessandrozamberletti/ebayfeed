@@ -25,7 +25,7 @@ def gunzip(byte_str_gz):
     bstream.seek(0)
     with GzipFile(fileobj=bstream, mode="rb") as bs:
         compressed_bytes = bs.read()
-    return compressed_bytes.decode()
+    return compressed_bytes.decode("utf-8")
 
 
 def get_base64_oauth(client_id, client_secret):
