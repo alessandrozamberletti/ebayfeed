@@ -14,7 +14,7 @@ from tests import (
 )
 from re import split
 
-from ebayfeed.constants import SCOPE_NEWLY_LISTED, SCOPE_ALL_ACTIVE, EBAY_US, _1MB
+from ebayfeed.constants import SCOPE_NEWLY_LISTED, SCOPE_ALL_ACTIVE, EBAY_US, _100MB
 from ebayfeed.downloader import (
     get_feed,
     _download_tsv,
@@ -136,7 +136,7 @@ class TestDownloader(TestCase):
     def test_get_feed_format(self, mock_download_tsv):
         def correct_call_params(mock):
             mock.assert_called_once_with(
-                api, credentials, a_category, a_scope, a_marketplace, None, _1MB
+                api, credentials, a_category, a_scope, a_marketplace, None, _100MB
             )
 
         mock_download_tsv.return_value = self.tsv_feed

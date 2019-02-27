@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ebayfeed.constants import SCOPE_ALL_ACTIVE, EBAY_US, _1MB
+from ebayfeed.constants import SCOPE_ALL_ACTIVE, EBAY_US, _100MB
 
 
 a_token = "a_token"
@@ -10,4 +10,4 @@ a_date = "20180102"
 a_uri = "a_route"
 some_headers = {"headers": "xyz"}
 some_params = {"params": "xyz"}
-a_range = _1MB
+a_range = _100MB

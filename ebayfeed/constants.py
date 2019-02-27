@@ -25,4 +25,4 @@ _ENVIRONMENT_TO_API_DICT = {
 }
 
 # chunk size
-_1MB = 1e6
+_100MB = 10485760
