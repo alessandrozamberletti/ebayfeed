@@ -18,6 +18,9 @@ More info [here](https://developer.ebay.com/api-docs/buy/feed/overview.html#API)
 
 [Feed API release notes](https://developer.ebay.com/api-docs/buy/feed/release-notes.html)
 
+# TODO
+* save chunks to disk instead of keeping everything in memory
+
 # Installation
 To install, use `pip` or `easy_install`:
 
