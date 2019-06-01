@@ -52,7 +52,7 @@ from pandas.compat import StringIO
 
 # download tsv feed
 credentials = ebayfeed.Credentials(client_id, client_secret)
-feed = ebayfeed.get_feed(credentials, 3252, ebayfeed.SCOPE_ALL_ACTIVE, ebayfeed.EBAY_US)
+tsv_feed = ebayfeed.get_feed(credentials, 3252, ebayfeed.SCOPE_ALL_ACTIVE, ebayfeed.EBAY_US)
 
 # convert to dataframe
 df = read_table(StringIO(tsv_feed.splitlines()))
